@@ -1,6 +1,7 @@
 {
   "name": "Loom Website",
   "image": "loom-dev-base:latest",
+  "remoteUser": "node",
   "mounts": ["source=loom-ssh-vol,target=/home/node/.ssh,type=volume"],
   "forwardPorts": [3000],
   "portsAttributes": {
@@ -11,8 +12,10 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": ["oxc.oxc-vscode"],
       "settings": {
+        "remote.extensionKind": {
+          "oxc.oxc-vscode": ["workspace"]
+        },
         "[javascript]": {
           "editor.defaultFormatter": "oxc.oxc-vscode"
         },
@@ -25,9 +28,27 @@
         "[typescriptreact]": {
           "editor.defaultFormatter": "oxc.oxc-vscode"
         },
+        "[json]": {
+          "editor.defaultFormatter": "oxc.oxc-vscode",
+          "editor.formatOnSave": true
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "oxc.oxc-vscode",
+          "editor.formatOnSave": true
+        },
+        "[css]": {
+          "editor.defaultFormatter": "vscode.css-language-features",
+          "editor.formatOnSave": true
+        },
         "editor.formatOnSave": true,
+        "json.format.enable": false,
+        "biome.enabled": false,
+        "eslint.enable": false,
+        "prettier.enable": false,
+        "oxc.enable": true,
+        "editor.defaultFormatter": "oxc.oxc-vscode",
         "editor.codeActionsOnSave": {
-          "source.fixAll.oxc": "always"
+          "source.fixAll.oxc": "explicit"
         }
       }
     }
