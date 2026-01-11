@@ -1,0 +1,49 @@
+# --- 系统与编辑器 ---
+.DS_Store
+Thumbs.db
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.log
+*.swp
+
+# --- Node.js / 前端 ---
+node_modules/
+.pnpm-debug.log
+.npm
+.eslintcache
+dist/
+build/
+out/
+.next/
+.cache/
+.pnpm-store/
+
+# --- Docusaurus ---
+.docusaurus/
+.cache-loader/
+
+# --- Turbo Monorepo ---
+.turbo/
+
+# --- Rust / Cargo ---
+target/
+**/*.rs.bk
+
+# --- 数据库与持久化 ---
+# 这里的配置是为了防止你不小心把本地测试数据提交上去
+*.sql
+*.sqlite
+.env
+.env.local
+.env.production
+.env.*.local
+
+# --- Dev Container 专属 ---
+# 既然你使用了 setup.sh 动态生成配置，建议忽略容器内的临时 SSH 或 Git 状态
+.devcontainer/.ssh-temp/
+.devcontainer/setup.log
+
+# --- Oxc ---
+.oxlintignore

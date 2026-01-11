@@ -1,0 +1,42 @@
+{
+	"name": "Loom Website",
+	"image": "loom-dev-base:latest",
+	"mounts": [
+		"source=loom-ssh-vol,target=/home/node/.ssh,type=volume"
+	],
+	"forwardPorts": [
+		3000
+	],
+	"portsAttributes": {
+		"3000": {
+			"label": "Loom Docs",
+			"onAutoForward": "notify"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"oxc.oxc-vscode"
+			],
+			"settings": {
+				"[javascript]": {
+					"editor.defaultFormatter": "oxc.oxc-vscode"
+				},
+				"[typescript]": {
+					"editor.defaultFormatter": "oxc.oxc-vscode"
+				},
+				"[javascriptreact]": {
+					"editor.defaultFormatter": "oxc.oxc-vscode"
+				},
+				"[typescriptreact]": {
+					"editor.defaultFormatter": "oxc.oxc-vscode"
+				},
+				"editor.formatOnSave": true,
+				"editor.codeActionsOnSave": {
+					"source.fixAll.oxc": "always"
+				}
+			}
+		}
+	},
+	"postCreateCommand": "bash .devcontainer/setup.sh"
+}
