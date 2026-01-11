@@ -1,71 +1,65 @@
-'use client';
-import * as Primitive from 'fumadocs-core/toc';
-import { type ComponentProps, useEffect, useRef, useState } from 'react';
-import { cn } from '../../lib/cn';
-import { TocThumb, useTOCItems } from './index';
-import { mergeRefs } from '../../lib/merge-refs';
-import { useI18n } from 'fumadocs-ui/contexts/i18n';
+'use client'
+import * as Primitive from 'fumadocs-core/toc'
+import { type ComponentProps, useEffect, useRef, useState } from 'react'
+import { cn } from '../../lib/cn'
+import { TocThumb, useTOCItems } from './index'
+import { mergeRefs } from '../../lib/merge-refs'
+import { useI18n } from 'fumadocs-ui/contexts/i18n'
 
 export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const items = useTOCItems();
-  const { text } = useI18n();
+  const containerRef = useRef<HTMLDivElement>(null)
+  const items = useTOCItems()
+  const { text } = useI18n()
 
   const [svg, setSvg] = useState<{
-    path: string;
-    width: number;
-    height: number;
-  }>();
+    path: string
+    width: number
+    height: number
+  }>()
 
   useEffect(() => {
-    if (!containerRef.current) return;
-    const container = containerRef.current;
+    if (!containerRef.current) return
+    const container = containerRef.current
 
     function onResize(): void {
-      if (container.clientHeight === 0) return;
+      if (container.clientHeight === 0) return
       let w = 0,
-        h = 0;
-      const d: string[] = [];
+        h = 0
+      const d: string[] = []
       for (let i = 0; i < items.length; i++) {
-        const element: HTMLElement | null = container.querySelector(
-          `a[href="#${items[i].url.slice(1)}"]`,
-        );
-        if (!element) continue;
+        const element: HTMLElement | null = container.querySelector(`a[href="#${items[i].url.slice(1)}"]`)
+        if (!element) continue
 
-        const styles = getComputedStyle(element);
+        const styles = getComputedStyle(element)
         const offset = getLineOffset(items[i].depth) + 1,
           top = element.offsetTop + parseFloat(styles.paddingTop),
-          bottom = element.offsetTop + element.clientHeight - parseFloat(styles.paddingBottom);
+          bottom = element.offsetTop + element.clientHeight - parseFloat(styles.paddingBottom)
 
-        w = Math.max(offset, w);
-        h = Math.max(h, bottom);
+        w = Math.max(offset, w)
+        h = Math.max(h, bottom)
 
-        d.push(`${i === 0 ? 'M' : 'L'}${offset} ${top}`);
-        d.push(`L${offset} ${bottom}`);
+        d.push(`${i === 0 ? 'M' : 'L'}${offset} ${top}`)
+        d.push(`L${offset} ${bottom}`)
       }
 
       setSvg({
         path: d.join(' '),
         width: w + 1,
         height: h,
-      });
+      })
     }
 
-    const observer = new ResizeObserver(onResize);
-    onResize();
+    const observer = new ResizeObserver(onResize)
+    onResize()
 
-    observer.observe(container);
+    observer.observe(container)
     return () => {
-      observer.disconnect();
-    };
-  }, [items]);
+      observer.disconnect()
+    }
+  }, [items])
 
   if (items.length === 0)
-    return (
-      <div className="rounded-lg border bg-fd-card p-3 text-xs text-fd-muted-foreground">
-        {text.tocNoHeadings}
-      </div>
-    );
+    return <div className="rounded-lg border bg-fd-card p-3 text-xs text-fd-muted-foreground">{text.tocNoHeadings}</div>
 
   return (
     <>
@@ -91,26 +85,21 @@ export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
       )}
       <div ref={mergeRefs(containerRef, ref)} className={cn('flex flex-col', className)} {...props}>
         {items.map((item, i) => (
-          <TOCItem
-            key={item.url}
-            item={item}
-            upper={items[i - 1]?.depth}
-            lower={items[i + 1]?.depth}
-          />
+          <TOCItem key={item.url} item={item} upper={items[i - 1]?.depth} lower={items[i + 1]?.depth} />
         ))}
       </div>
     </>
-  );
+  )
 }
 
 function getItemOffset(depth: number): number {
-  if (depth <= 2) return 14;
-  if (depth === 3) return 26;
-  return 36;
+  if (depth <= 2) return 14
+  if (depth === 3) return 26
+  return 36
 }
 
 function getLineOffset(depth: number): number {
-  return depth >= 3 ? 10 : 0;
+  return depth >= 3 ? 10 : 0
 }
 
 function TOCItem({
@@ -118,13 +107,13 @@ function TOCItem({
   upper = item.depth,
   lower = item.depth,
 }: {
-  item: Primitive.TOCItemType;
-  upper?: number;
-  lower?: number;
+  item: Primitive.TOCItemType
+  upper?: number
+  lower?: number
 }) {
   const offset = getLineOffset(item.depth),
     upperOffset = getLineOffset(upper),
-    lowerOffset = getLineOffset(lower);
+    lowerOffset = getLineOffset(lower)
 
   return (
     <Primitive.TOCItem
@@ -140,14 +129,7 @@ function TOCItem({
           viewBox="0 0 16 16"
           className="absolute -top-1.5 start-0 size-4 rtl:-scale-x-100"
         >
-          <line
-            x1={upperOffset}
-            y1="0"
-            x2={offset}
-            y2="12"
-            className="stroke-fd-foreground/10"
-            strokeWidth="1"
-          />
+          <line x1={upperOffset} y1="0" x2={offset} y2="12" className="stroke-fd-foreground/10" strokeWidth="1" />
         </svg>
       )}
       <div
@@ -162,5 +144,5 @@ function TOCItem({
       />
       {item.title}
     </Primitive.TOCItem>
-  );
+  )
 }

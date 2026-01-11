@@ -1,5 +1,5 @@
-'use client';
-import { cn } from '../../../lib/cn';
+'use client'
+import { cn } from '../../../lib/cn'
 import {
   type ComponentProps,
   createContext,
@@ -11,26 +11,26 @@ import {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import { useSidebar } from '../sidebar/base';
-import { ChevronDown } from 'lucide-react';
-import Link from 'fumadocs-core/link';
-import { usePathname } from 'fumadocs-core/framework';
-import { useIsScrollTop } from 'fumadocs-ui/utils/use-is-scroll-top';
-import { LinkItem, type LinkItemType, type MenuItemType } from '../link-item';
-import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
-import { isTabActive, type SidebarTabWithProps } from '../sidebar/tabs/dropdown';
+} from 'react'
+import { useSidebar } from '../sidebar/base'
+import { ChevronDown } from 'lucide-react'
+import Link from 'fumadocs-core/link'
+import { usePathname } from 'fumadocs-core/framework'
+import { useIsScrollTop } from 'fumadocs-ui/utils/use-is-scroll-top'
+import { LinkItem, type LinkItemType, type MenuItemType } from '../link-item'
+import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover'
+import { isTabActive, type SidebarTabWithProps } from '../sidebar/tabs/dropdown'
 
 export const LayoutContext = createContext<
   | (LayoutInfo & {
-      isNavTransparent: boolean;
+      isNavTransparent: boolean
     })
   | null
->(null);
+>(null)
 
 export interface LayoutInfo {
-  tabMode: 'sidebar' | 'navbar';
-  navMode: 'top' | 'auto';
+  tabMode: 'sidebar' | 'navbar'
+  navMode: 'top' | 'auto'
 }
 
 export function LayoutContextProvider({
@@ -39,11 +39,11 @@ export function LayoutContextProvider({
   tabMode,
   children,
 }: LayoutInfo & {
-  navTransparentMode?: 'always' | 'top' | 'none';
-  children: ReactNode;
+  navTransparentMode?: 'always' | 'top' | 'none'
+  children: ReactNode
 }) {
-  const isTop = useIsScrollTop({ enabled: navTransparentMode === 'top' }) ?? true;
-  const isNavTransparent = navTransparentMode === 'top' ? isTop : navTransparentMode === 'always';
+  const isTop = useIsScrollTop({ enabled: navTransparentMode === 'top' }) ?? true
+  const isNavTransparent = navTransparentMode === 'top' ? isTop : navTransparentMode === 'always'
 
   return (
     <LayoutContext
@@ -58,25 +58,24 @@ export function LayoutContextProvider({
     >
       {children}
     </LayoutContext>
-  );
+  )
 }
 
 export function LayoutHeader(props: ComponentProps<'header'>) {
-  const { open } = useSidebar();
-  const { isNavTransparent } = use(LayoutContext)!;
+  const { open } = useSidebar()
+  const { isNavTransparent } = use(LayoutContext)!
 
   return (
     <header data-transparent={isNavTransparent && !open} {...props}>
       {props.children}
     </header>
-  );
+  )
 }
 
 export function LayoutBody({ className, style, children, ...props }: ComponentProps<'div'>) {
-  const { navMode } = use(LayoutContext)!;
-  const { collapsed } = useSidebar();
-  const pageCol =
-    'calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-col) - var(--fd-toc-width))';
+  const { navMode } = use(LayoutContext)!
+  const { collapsed } = useSidebar()
+  const pageCol = 'calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-col) - var(--fd-toc-width))'
 
   return (
     <div
@@ -106,7 +105,7 @@ export function LayoutBody({ className, style, children, ...props }: ComponentPr
     >
       {children}
     </div>
-  );
+  )
 }
 
 export function LayoutHeaderTabs({
@@ -114,18 +113,18 @@ export function LayoutHeaderTabs({
   className,
   ...props
 }: ComponentProps<'div'> & {
-  options: SidebarTabWithProps[];
+  options: SidebarTabWithProps[]
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname()
   const selectedIdx = useMemo(() => {
-    return options.findLastIndex((option) => isTabActive(option, pathname));
-  }, [options, pathname]);
+    return options.findLastIndex((option) => isTabActive(option, pathname))
+  }, [options, pathname])
 
   return (
     <div className={cn('flex flex-row items-end gap-6', className)} {...props}>
       {options.map((option, i) => {
-        const { title, url, unlisted, props: { className, ...rest } = {} } = option;
-        const isSelected = selectedIdx === i;
+        const { title, url, unlisted, props: { className, ...rest } = {} } = option
+        const isSelected = selectedIdx === i
 
         return (
           <Link
@@ -141,21 +140,17 @@ export function LayoutHeaderTabs({
           >
             {title}
           </Link>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
 
-export function NavbarLinkItem({
-  item,
-  className,
-  ...props
-}: { item: LinkItemType } & HTMLAttributes<HTMLElement>) {
-  if (item.type === 'custom') return item.children;
+export function NavbarLinkItem({ item, className, ...props }: { item: LinkItemType } & HTMLAttributes<HTMLElement>) {
+  if (item.type === 'custom') return item.children
 
   if (item.type === 'menu') {
-    return <NavbarLinkItemMenu item={item} className={className} {...props} />;
+    return <NavbarLinkItemMenu item={item} className={className} {...props} />
   }
 
   return (
@@ -169,7 +164,7 @@ export function NavbarLinkItem({
     >
       {item.text}
     </LinkItem>
-  );
+  )
 }
 
 function NavbarLinkItemMenu({
@@ -178,38 +173,38 @@ function NavbarLinkItemMenu({
   className,
   ...props
 }: { item: MenuItemType; hoverDelay?: number } & HTMLAttributes<HTMLElement>) {
-  const [open, setOpen] = useState(false);
-  const timeoutRef = useRef<number>(null);
-  const freezeUntil = useRef<number>(null);
+  const [open, setOpen] = useState(false)
+  const timeoutRef = useRef<number>(null)
+  const freezeUntil = useRef<number>(null)
 
   const delaySetOpen = (value: boolean) => {
     if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
     }
 
     timeoutRef.current = window.setTimeout(() => {
-      setOpen(value);
-      freezeUntil.current = Date.now() + 300;
-    }, hoverDelay);
-  };
+      setOpen(value)
+      freezeUntil.current = Date.now() + 300
+    }, hoverDelay)
+  }
   const onPointerEnter = (e: PointerEvent) => {
-    if (e.pointerType === 'touch') return;
-    delaySetOpen(true);
-  };
+    if (e.pointerType === 'touch') return
+    delaySetOpen(true)
+  }
   const onPointerLeave = (e: PointerEvent) => {
-    if (e.pointerType === 'touch') return;
-    delaySetOpen(false);
-  };
+    if (e.pointerType === 'touch') return
+    delaySetOpen(false)
+  }
   function isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0
   }
 
   return (
     <Popover
       open={open}
       onOpenChange={(value) => {
-        if (freezeUntil.current === null || Date.now() >= freezeUntil.current) setOpen(value);
+        if (freezeUntil.current === null || Date.now() >= freezeUntil.current) setOpen(value)
       }}
     >
       <PopoverTrigger
@@ -230,7 +225,7 @@ function NavbarLinkItemMenu({
         onPointerLeave={onPointerLeave}
       >
         {item.items.map((child, i) => {
-          if (child.type === 'custom') return <Fragment key={i}>{child.children}</Fragment>;
+          if (child.type === 'custom') return <Fragment key={i}>{child.children}</Fragment>
 
           return (
             <LinkItem
@@ -238,15 +233,15 @@ function NavbarLinkItemMenu({
               item={child}
               className="inline-flex items-center gap-2 rounded-md p-2 transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground data-[active=true]:text-fd-primary [&_svg]:size-4"
               onClick={() => {
-                if (isTouchDevice()) setOpen(false);
+                if (isTouchDevice()) setOpen(false)
               }}
             >
               {child.icon}
               {child.text}
             </LinkItem>
-          );
+          )
         })}
       </PopoverContent>
     </Popover>
-  );
+  )
 }

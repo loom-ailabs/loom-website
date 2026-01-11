@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "semi": false,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "endOfLine": "lf",
+  "sortImports": true,
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": ["**/*.jsonc", "**/*.json", "**/tsconfig.json", "**/tsconfig.*.json'"],
+      "options": {
+        "trailingComma": "none",
+        "printWidth": 80
+      }
+    }
+  ]
+}

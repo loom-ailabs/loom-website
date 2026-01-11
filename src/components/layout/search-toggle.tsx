@@ -1,23 +1,18 @@
-'use client';
-import type { ComponentProps } from 'react';
-import { Search } from 'lucide-react';
-import { useSearchContext } from 'fumadocs-ui/contexts/search';
-import { useI18n } from 'fumadocs-ui/contexts/i18n';
-import { cn } from '../../lib/cn';
-import { type ButtonProps, buttonVariants } from '../ui/button';
+'use client'
+import type { ComponentProps } from 'react'
+import { Search } from 'lucide-react'
+import { useSearchContext } from 'fumadocs-ui/contexts/search'
+import { useI18n } from 'fumadocs-ui/contexts/i18n'
+import { cn } from '../../lib/cn'
+import { type ButtonProps, buttonVariants } from '../ui/button'
 
 interface SearchToggleProps extends Omit<ComponentProps<'button'>, 'color'>, ButtonProps {
-  hideIfDisabled?: boolean;
+  hideIfDisabled?: boolean
 }
 
-export function SearchToggle({
-  hideIfDisabled,
-  size = 'icon-sm',
-  color = 'ghost',
-  ...props
-}: SearchToggleProps) {
-  const { setOpenSearch, enabled } = useSearchContext();
-  if (hideIfDisabled && !enabled) return null;
+export function SearchToggle({ hideIfDisabled, size = 'icon-sm', color = 'ghost', ...props }: SearchToggleProps) {
+  const { setOpenSearch, enabled } = useSearchContext()
+  if (hideIfDisabled && !enabled) return null
 
   return (
     <button
@@ -32,23 +27,23 @@ export function SearchToggle({
       data-search=""
       aria-label="Open Search"
       onClick={() => {
-        setOpenSearch(true);
+        setOpenSearch(true)
       }}
     >
       <Search />
     </button>
-  );
+  )
 }
 
 export function LargeSearchToggle({
   hideIfDisabled,
   ...props
 }: ComponentProps<'button'> & {
-  hideIfDisabled?: boolean;
+  hideIfDisabled?: boolean
 }) {
-  const { enabled, hotKey, setOpenSearch } = useSearchContext();
-  const { text } = useI18n();
-  if (hideIfDisabled && !enabled) return null;
+  const { enabled, hotKey, setOpenSearch } = useSearchContext()
+  const { text } = useI18n()
+  if (hideIfDisabled && !enabled) return null
 
   return (
     <button
@@ -60,7 +55,7 @@ export function LargeSearchToggle({
         props.className,
       )}
       onClick={() => {
-        setOpenSearch(true);
+        setOpenSearch(true)
       }}
     >
       <Search className="size-4" />
@@ -73,5 +68,5 @@ export function LargeSearchToggle({
         ))}
       </div>
     </button>
-  );
+  )
 }

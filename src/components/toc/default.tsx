@@ -1,22 +1,18 @@
-'use client';
-import { useI18n } from 'fumadocs-ui/contexts/i18n';
-import { cn } from '../../lib/cn';
-import { type ComponentProps, useRef } from 'react';
-import { mergeRefs } from '../../lib/merge-refs';
-import { TocThumb, useTOCItems } from './index';
-import * as Primitive from 'fumadocs-core/toc';
+'use client'
+import { useI18n } from 'fumadocs-ui/contexts/i18n'
+import { cn } from '../../lib/cn'
+import { type ComponentProps, useRef } from 'react'
+import { mergeRefs } from '../../lib/merge-refs'
+import { TocThumb, useTOCItems } from './index'
+import * as Primitive from 'fumadocs-core/toc'
 
 export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const items = useTOCItems();
-  const { text } = useI18n();
+  const containerRef = useRef<HTMLDivElement>(null)
+  const items = useTOCItems()
+  const { text } = useI18n()
 
   if (items.length === 0)
-    return (
-      <div className="rounded-lg border bg-fd-card p-3 text-xs text-fd-muted-foreground">
-        {text.tocNoHeadings}
-      </div>
-    );
+    return <div className="rounded-lg border bg-fd-card p-3 text-xs text-fd-muted-foreground">{text.tocNoHeadings}</div>
 
   return (
     <>
@@ -34,7 +30,7 @@ export function TOCItems({ ref, className, ...props }: ComponentProps<'div'>) {
         ))}
       </div>
     </>
-  );
+  )
 }
 
 function TOCItem({ item }: { item: Primitive.TOCItemType }) {
@@ -50,5 +46,5 @@ function TOCItem({ item }: { item: Primitive.TOCItemType }) {
     >
       {item.title}
     </Primitive.TOCItem>
-  );
+  )
 }

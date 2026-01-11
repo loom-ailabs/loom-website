@@ -1,15 +1,15 @@
-'use client';
-import type { ComponentProps } from 'react';
-import { useI18n } from 'fumadocs-ui/contexts/i18n';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { cn } from '../../lib/cn';
-import { buttonVariants } from '../ui/button';
+'use client'
+import type { ComponentProps } from 'react'
+import { useI18n } from 'fumadocs-ui/contexts/i18n'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { cn } from '../../lib/cn'
+import { buttonVariants } from '../ui/button'
 
-export type LanguageSelectProps = ComponentProps<'button'>;
+export type LanguageSelectProps = ComponentProps<'button'>
 
 export function LanguageToggle(props: LanguageSelectProps): React.ReactElement {
-  const context = useI18n();
-  if (!context.locales) throw new Error('Missing `<I18nProvider />`');
+  const context = useI18n()
+  if (!context.locales) throw new Error('Missing `<I18nProvider />`')
 
   return (
     <Popover>
@@ -27,9 +27,7 @@ export function LanguageToggle(props: LanguageSelectProps): React.ReactElement {
         {props.children}
       </PopoverTrigger>
       <PopoverContent className="flex flex-col overflow-x-hidden p-0">
-        <p className="mb-1 p-2 text-xs font-medium text-fd-muted-foreground">
-          {context.text.chooseLanguage}
-        </p>
+        <p className="mb-1 p-2 text-xs font-medium text-fd-muted-foreground">{context.text.chooseLanguage}</p>
         {context.locales.map((item) => (
           <button
             key={item.locale}
@@ -41,7 +39,7 @@ export function LanguageToggle(props: LanguageSelectProps): React.ReactElement {
                 : 'hover:bg-fd-accent hover:text-fd-accent-foreground',
             )}
             onClick={() => {
-              context.onChange?.(item.locale);
+              context.onChange?.(item.locale)
             }}
           >
             {item.name}
@@ -49,12 +47,12 @@ export function LanguageToggle(props: LanguageSelectProps): React.ReactElement {
         ))}
       </PopoverContent>
     </Popover>
-  );
+  )
 }
 
 export function LanguageToggleText(props: ComponentProps<'span'>) {
-  const context = useI18n();
-  const text = context.locales?.find((item) => item.locale === context.locale)?.name;
+  const context = useI18n()
+  const text = context.locales?.find((item) => item.locale === context.locale)?.name
 
-  return <span {...props}>{text}</span>;
+  return <span {...props}>{text}</span>
 }
