@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/bytedance/workspace/github/loom-website log --oneline -10)",
+      "Bash(git -C /Users/bytedance/workspace/github/loom-website remote -v)",
+      "Bash(tree:*)",
+      "Bash(npm run postinstall:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git config:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

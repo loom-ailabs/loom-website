@@ -3,8 +3,9 @@ import { DocsLayout } from '@/components/layout/notebook'
 import { baseOptions } from '@/lib/layout.shared'
 
 export default function Layout({ children }: LayoutProps<'/docs'>) {
+  const { nav, ...base } = baseOptions()
   return (
-    <DocsLayout tree={source.getPageTree()} {...baseOptions()}>
+    <DocsLayout {...base} tree={source.getPageTree()} tabMode="navbar" nav={{ ...nav, mode: 'top' }}>
       {children}
     </DocsLayout>
   )

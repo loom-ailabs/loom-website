@@ -1,14 +1,17 @@
 {
   "name": "Loom Website",
   "image": "loom-dev-base:latest",
-  "remoteUser": "node",
-  "mounts": ["source=loom-ssh-vol,target=/home/node/.ssh,type=volume"],
+  "remoteUser": "root",
+  "mounts": ["source=loom-website-root-vol,target=/root,type=volume"],
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
       "label": "Loom Docs",
       "onAutoForward": "notify"
     }
+  },
+  "features": {
+    "ghcr.io/devcontainers-extra/features/claude-code:1": {}
   },
   "customizations": {
     "vscode": {
@@ -49,8 +52,10 @@
         "editor.defaultFormatter": "oxc.oxc-vscode",
         "editor.codeActionsOnSave": {
           "source.fixAll.oxc": "explicit"
-        }
-      }
+        },
+        "claudeCode.useTerminal": true
+      },
+      "extensions": ["anthropic.claude-code"]
     }
   },
   "postCreateCommand": "bash .devcontainer/setup.sh"
