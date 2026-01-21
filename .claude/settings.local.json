@@ -7,7 +7,10 @@
       "Bash(npm run postinstall:*)",
       "Bash(npx tsc:*)",
       "Bash(git config:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebSearch",
+      "WebFetch(domain:fumadocs.dev)",
+      "Bash(git add:*)"
     ]
   }
 }

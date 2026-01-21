@@ -1,18 +1,4 @@
 {
   "title": "Blogs",
-  "pages": [
-    "index",
-    "---Agents---",
-    "agents",
-    "---Docker---",
-    "docker",
-    "---Golang---",
-    "golang",
-    "---LLMs---",
-    "llms",
-    "---Python---",
-    "python",
-    "---Rust---",
-    "rust"
-  ]
+  "pages": ["index", "..."]
 }
